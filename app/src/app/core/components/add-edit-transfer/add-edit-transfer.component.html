@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      {{transfer ? 'Edit' : 'Add'}} Transfer
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="addTransferForm" novalidate (ngSubmit)="onFormSubmit()">
+
+    <ion-item>
+      <ion-label position="floating">Account Holder</ion-label>
+      <ion-input type="text" formControlName="account_holder" placeholder=""></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label position="floating">Iban</ion-label>
+      <ion-input type="text" formControlName="iban" placeholder=""></ion-input>
+    </ion-item>
+    <div *ngIf="getformControl('iban').touched && getformControl('iban').errors?.required">
+      * Required
+    </div>
+
+    <div *ngIf="getformControl('iban').errors?.['iban']">
+      IBAN is invalid
+    </div>
+
+
+    <ion-item>
+      <ion-label position="floating">Amount</ion-label>
+      <ion-input type="text" formControlName="amount" placeholder=""></ion-input>
+    </ion-item>
+
+    <div *ngIf="getformControl('amount').touched && getformControl('amount').errors?.required">
+      * Required
+    </div>
+    <div *ngIf="getformControl('amount').touched && getformControl('amount').errors?.pattern">
+      Max 8 characters, min 2 characters, max 2 decimal places, only numbers, "." and "," allowed, min 50 €, max 20.000.000 €
+    </div>
+
+    <div *ngIf="getformControl('amount').touched && getformControl('amount').errors?.minlength">
+      Minimal length is {{getformControl('amount').errors?.minlength.requiredLength}} and actual is {{getformControl('amount').errors?.minlength.actualLength}}
+    </div>
+    <div *ngIf="getformControl('amount').touched && getformControl('amount').errors?.maxlength">
+      Maximum length is {{getformControl('amount').errors?.maxlength.requiredLength}} and actual is {{getformControl('amount').errors?.maxlength.actualLength}}
+    </div>
+
+    <div *ngIf="getformControl('amount').touched && getformControl('amount').errors?.min">
+      Minimum value allowed is {{getformControl('amount').errors?.min.min}} and you entered {{getformControl('amount').errors?.min.actual}}
+    </div>
+    <div *ngIf="getformControl('amount').touched && getformControl('amount').errors?.max">
+      Maximum value allowed is {{getformControl('amount').errors?.max.max}} and you entered {{getformControl('amount').errors?.max.actual}}
+    </div>
+
+    <ion-item (click)="openDatePicker()">
+      <ion-label position="floating">Date</ion-label>
+      <ion-input type="text" formControlName="date" placeholder="" readonly></ion-input>
+    </ion-item>
+    <div *ngIf="getformControl('date').touched && getformControl('date').errors?.required">
+      * Required
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Note</ion-label>
+      <ion-input type="text" formControlName="note" placeholder=""></ion-input>
+    </ion-item>
+
+    <ion-button type="submit">Submit</ion-button>
+  </form>
+</ion-content>

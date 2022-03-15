@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Your Recent Transfers
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-searchbar (ionChange)="filterRecord($event)"></ion-searchbar>
+
+  <ion-item>
+    <ion-label>Sort By</ion-label>
+    <ion-select [(ngModel)]="sortBy" (ionChange)="sortChanged()" interface="action-sheet">
+      <ion-select-option value="dateNO">Date - New to Old</ion-select-option>
+      <ion-select-option value="dateON">Date - Old to New</ion-select-option>
+      <ion-select-option value="amountLH">Amount - Low to High</ion-select-option>
+      <ion-select-option value="amountHL">Amount - High to Low</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <p *ngIf="!isLoading && !transfers.length">
+    No transfers to display yet.!
+  </p>
+
+  <ng-container *ngFor="let transfer of transfers">
+    <ion-item *ngIf="transfer['isVisible']">
+      <ion-label class="ion-text-wrap">
+        <ion-text color="primary">
+          <h3>
+            {{transfer.account_holder}}
+          </h3>
+        </ion-text>
+        <p>
+          {{transfer.iban | ibanFormatter}}
+        </p>
+        <ion-text color="secondary">
+          <p>
+            {{transfer.amount | currency}}
+          </p>
+        </ion-text>
+        <ion-text color="primary">
+          <p>
+            {{transfer.date | date:'YYYY-MM-d'}}
+          </p>
+        </ion-text>
+      </ion-label>
+  
+      <ion-icon slot="end" name="create-outline" (click)="edit(transfer)"></ion-icon>
+      <ion-icon slot="end" name="close-circle-outline" (click)="delete(transfer.uuid)"></ion-icon>
+    </ion-item>
+  </ng-container>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addTransfer()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
