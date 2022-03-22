@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AddEditTransferComponent } from '../core/components/add-edit-transfer/add-edit-transfer.component';
 import { COMMON } from '../core/constants/common.constant';
 import { ITransfer } from '../core/models/transfer.model';
@@ -10,7 +11,9 @@ import { TransferService } from '../core/services/transfer.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnDestroy {
+
+  subscriptions = new Subscription();
   transfers: ITransfer[] = [];
   isLoading = true;
   sortBy = '';
@@ -24,32 +27,31 @@ export class HomePage {
   }
 
   sortChanged() {
-    console.log(this.sortBy);
     let sorter = null
     if (this.sortBy === 'amountHL') {
       sorter = (a, b) => a.amount < b.amount ? 1 : -1;
     } else if (this.sortBy === 'amountLH') {
       sorter = (a, b) => a.amount > b.amount ? 1 : -1;
     } else if (this.sortBy === 'dateNO') {
-      sorter = (a, b) => new Date(a.date) > new Date(a.date) ? 1 : -1;
+      sorter = (a) => new Date(a.date) > new Date(a.date) ? 1 : -1;
     } else if (this.sortBy === 'dateON') {
-      sorter = (a, b) => new Date(a.date) > new Date(a.date) ? 1 : -1;
+      sorter = (a) => new Date(a.date) > new Date(a.date) ? 1 : -1;
     }
 
     this.transfers.sort(sorter);
-
   }
 
   async load() {
     this.isLoading = true;
     await this.ionicService.showLoader();
-    this.transferService.getAll()
-    .subscribe(async res => {
-      this.transfers = res;
-      this.allVisible();
-      this.isLoading = false;
-      await this.ionicService.hideLoader();
-    });
+    this.subscriptions.add(this.transferService.getAll()
+      .subscribe(async res => {
+        this.transfers = res;
+        this.allVisible();
+        this.isLoading = false;
+        await this.ionicService.hideLoader();
+      })
+    );
   }
 
   allVisible() {
@@ -62,26 +64,28 @@ export class HomePage {
     this.ionicService.showModal(AddEditTransferComponent, {}, async res => {
       if (res.role === COMMON.SAVE) {
         await this.ionicService.showLoader();
-        this.transferService.create(res.data)
-        .subscribe(async res => {
-          await this.ionicService.hideLoader();
-          this.load();
-          this.ionicService.presentToast('Record added.', 'success');
-        }, async err => {
-          await this.ionicService.hideLoader();
-          this.ionicService.showError(err);
-        });
+        this.subscriptions.add(this.transferService.create(res.data)
+          .subscribe(() => {
+            this.ionicService.hideLoader();
+            this.load();
+            this.ionicService.presentToast('Record added.', 'success');
+          }, async err => {
+            await this.ionicService.hideLoader();
+            this.ionicService.showError(err);
+          })
+        );
       }
     });
   }
 
   delete(uuid: string) {
     this.ionicService.showConfirmation()
-    .then(res => {
-      this.transferService.delete(uuid)
-      .subscribe(res => {
-        this.load();
-      });
+    .then(() => {
+      this.subscriptions.add(this.transferService.delete(uuid)
+        .subscribe(() => {
+          this.load();
+        })
+      );
     }).catch(err => {
       console.log(err);
     });
@@ -91,26 +95,27 @@ export class HomePage {
     this.ionicService.showModal(AddEditTransferComponent, {transfer}, async res => {
       if (res.role === COMMON.UPDATE) {
         await this.ionicService.showLoader();
-        this.transferService.update(transfer.uuid, transfer)
-        .subscribe(async res => {
-          await this.ionicService.hideLoader();
-          this.ionicService.presentToast('Record updated.', 'success');
-          this.load();
-          this
-        }, async err => {
-          await this.ionicService.hideLoader();
-          this.ionicService.showError(err);
-        });
+        this.subscriptions.add(this.transferService.update(transfer.uuid, transfer)
+          .subscribe(() => {
+            this.ionicService.hideLoader();
+            this.ionicService.presentToast('Record updated.', 'success');
+            this.load();
+            this
+          }, async err => {
+            await this.ionicService.hideLoader();
+            this.ionicService.showError(err);
+          })
+        );
       }
 
     });
   }
 
-  filterRecord(e) {
-    const q = e.detail.value.toLowerCase();
-    if (q) {
+  filterRecord(elem) {
+    const elemVal = elem.detail.value.toLowerCase();
+    if (elemVal) {
       this.transfers.forEach(transfer => {
-        if (transfer.account_holder.toLowerCase().includes(q) || transfer.note.toLowerCase().includes(q)) {
+        if (transfer.account_holder.toLowerCase().includes(elemVal) || transfer.note.toLowerCase().includes(elemVal)) {
           transfer['isVisible'] = true;
         } else {
           transfer['isVisible'] = false;
@@ -119,5 +124,9 @@ export class HomePage {
     } else {
       this.allVisible();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
