@@ -12,7 +12,7 @@
 
   <ion-item>
     <ion-label>Sort By</ion-label>
-    <ion-select [(ngModel)]="sortBy" (ionChange)="sortChanged()" interface="action-sheet">
+    <ion-select id="select-sort" [(ngModel)]="sortBy" (ionChange)="sortChanged()" interface="action-sheet">
       <ion-select-option value="dateNO">Date - New to Old</ion-select-option>
       <ion-select-option value="dateON">Date - Old to New</ion-select-option>
       <ion-select-option value="amountLH">Amount - Low to High</ion-select-option>

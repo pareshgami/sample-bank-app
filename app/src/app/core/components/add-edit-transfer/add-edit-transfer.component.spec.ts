@@ -68,4 +68,7 @@ describe('AddEditTransferComponent', () => {
     expect(component.addTransferForm.valid).toBeTruthy();
   });
 
+  it('shoudl open date picker', () => {
+    component.openDatePicker();
+  });
 });

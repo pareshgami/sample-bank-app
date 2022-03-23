@@ -66,4 +66,24 @@ describe('TransferPage', () => {
     expect().nothing();
   });
 
+  it('should call load', () => {
+    component.load();
+    expect().nothing();
+  });
+
+  it('should open sort actionsheet', () => {
+    setTimeout(() => {
+      component.sortChanged();
+      expect().nothing();
+    }, 2000);
+  });
+
+  it('should call enter', () => {
+    component.ionViewDidEnter();
+  });
+
+  it('should call add tranfer', () => {
+    component.addTransfer();
+  });
+
 });
