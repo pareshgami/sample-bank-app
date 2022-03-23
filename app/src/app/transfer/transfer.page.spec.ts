@@ -3,9 +3,10 @@ import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { TransferService } from '../core/services/transfer.service';
 import { TransferPage } from './transfer.page';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { ITransfer } from '../core/models/transfer.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 describe('TransferPage', () => {
   let component: TransferPage;
@@ -16,7 +17,10 @@ describe('TransferPage', () => {
       declarations: [ TransferPage ],
       imports: [
         StoreModule.forRoot({}),
-        IonicModule.forRoot()
+        IonicModule.forRoot(),
+        CommonModule,
+        FormsModule,
+        BrowserModule
       ],
       providers: [
         TransferService
@@ -42,10 +46,10 @@ describe('TransferPage', () => {
     expect(addItemDebugElement).toBeTruthy();
   });
 
-  it("should click edit function", function() {
+  it("should call edit function", () => {
     const update: ITransfer = {
       "id": 19,
-      "uuid": "73708386-15d7-4f83-a65c-426460cfe608",
+      "uuid": "9b68d77c-2bd7-462b-ba26-33b0590f7991",
       "account_holder": "Modi rerum pariatur",
       "iban": "ES91 2100 0418 4502 0005 1332",
       "amount": 123123,
@@ -53,7 +57,13 @@ describe('TransferPage', () => {
       "note": "Id sunt quae saepe p",
       "created_at": new Date()
     };    
-    expect(spyOn(component, 'edit')).toHaveBeenCalledTimes(0);
+    component.edit(update);
+    expect().nothing();
+  });
+
+  it('sholud display alert dialog', () => {
+    component.delete('9b68d77c-2bd7-462b-ba26-33b0590f7991');
+    expect().nothing();
   });
 
 });

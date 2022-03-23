@@ -98,6 +98,7 @@ export class IonicService {
           {
             text: 'Cancel',
             role: 'cancel',
+            id: 'btn-cancel',
             cssClass: 'secondary',
             handler: () => {
               reject();

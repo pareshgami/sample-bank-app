@@ -3,9 +3,10 @@ import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { TransferService } from '../../services/transfer.service';
 import { AddEditTransferComponent } from './add-edit-transfer.component';
-import { By } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DebugElement } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 describe('AddEditTransferComponent', () => {
   let component: AddEditTransferComponent;
@@ -18,6 +19,8 @@ describe('AddEditTransferComponent', () => {
       imports: [
         IonicModule.forRoot(),
         StoreModule.forRoot({}),
+        CommonModule,
+        BrowserModule,
         FormsModule,
         ReactiveFormsModule
       ],
@@ -41,22 +44,6 @@ describe('AddEditTransferComponent', () => {
     let addItemDebugElement = fixture.debugElement.query(By.css('#btn-submit'));
     expect(addItemDebugElement).toBeTruthy();
   });
-
-  it('should find close button for modal', () => {
-    let addItemDebugElement = fixture.debugElement.query(By.css('#close-modal'));
-    expect(addItemDebugElement).toBeTruthy();
-  });
-
-  it('should find close button', fakeAsync (() => {
-    spyOn(component, 'close' as never);
-  
-    let button = fixture.debugElement.nativeElement.querySelector('#close-modal');
-    button.click();
-    tick();
-    fixture.whenStable().then(() => {
-      expect(component.close).toHaveBeenCalled();
-    });
-  }));
 
   it('should set submitted to true', () => {
     component.onFormSubmit();

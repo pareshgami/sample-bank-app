@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularIbanModule } from 'angular-iban';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    AngularIbanModule
+    AngularIbanModule,
+    ReactiveFormsModule,
   ],
   exports: [
-    AngularIbanModule
+    AngularIbanModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }
