@@ -25,4 +25,11 @@ describe('DatePickerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('choose date and dismiss', () => {
+    component.dateSelected()
+    .then(res => {
+      expect(res).toBe();
+    })
+  });
 });
