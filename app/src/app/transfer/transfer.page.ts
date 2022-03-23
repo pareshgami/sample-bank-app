@@ -53,34 +53,13 @@ export class TransferPage implements OnDestroy {
   }
 
   addTransfer() {
-    this.ionicService.showModal(AddEditTransferComponent, {}, async res => {
-      if (res.role === COMMON.SAVE) {
-        await this.ionicService.showLoader();
-        // this.subscriptions.add(this.transferService.create(res.data)
-        //   .subscribe(() => {
-        //     this.ionicService.hideLoader();
-        //     this.load();
-        //     this.ionicService.presentToast('Record added.', 'success');
-        //   }, async err => {
-        //     await this.ionicService.hideLoader();
-        //     this.ionicService.showError(err);
-        //   })
-        // );
-      }
-    });
+    this.ionicService.showModal(AddEditTransferComponent, {});
   }
 
   delete(uuid: string) {
     this.ionicService.showConfirmation()
     .then(() => {
-
       this.store.dispatch(transferActionTypes.deleteTransfer({uuid}));
-
-      // this.subscriptions.add(this.transferService.delete(uuid)
-      //   .subscribe(() => {
-      //     this.load();
-      //   })
-      // );
     }).catch(err => {
     });
   }

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
+import { StoreModule } from '@ngrx/store';
+import { TransferService } from '../core/services/transfer.service';
 import { TransferPage } from './transfer.page';
 
 describe('HomePage', () => {
@@ -10,7 +11,13 @@ describe('HomePage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TransferPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        StoreModule.forRoot({}),
+        IonicModule.forRoot()
+      ],
+      providers: [
+        TransferService
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransferPage);

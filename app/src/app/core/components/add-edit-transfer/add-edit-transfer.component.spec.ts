@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
+import { StoreModule } from '@ngrx/store';
+import { TransferService } from '../../services/transfer.service';
 import { AddEditTransferComponent } from './add-edit-transfer.component';
 
 describe('AddEditTransferComponent', () => {
@@ -10,7 +11,13 @@ describe('AddEditTransferComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AddEditTransferComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        IonicModule.forRoot(),
+        StoreModule.forRoot({})
+      ],
+      providers: [
+        TransferService
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AddEditTransferComponent);
