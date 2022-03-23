@@ -8,7 +8,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-searchbar (ionChange)="filterRecord($event)"></ion-searchbar>
+  <ion-searchbar placeholder="Search transfers" (ionChange)="filterRecord($event)"></ion-searchbar>
 
   <ion-item>
     <ion-label>Sort By</ion-label>
@@ -20,12 +20,12 @@
     </ion-select>
   </ion-item>
 
-  <p *ngIf="!isLoading && !transfers.length">
+  <p *ngIf="!isLoading && !(transfers$ | async).length">
     No transfers to display yet.!
   </p>
 
-  <ng-container *ngFor="let transfer of transfers">
-    <ion-item *ngIf="transfer['isVisible']">
+  <ng-container *ngFor="let transfer of transfers$ | async">
+    <ion-item>
       <ion-label class="ion-text-wrap">
         <ion-text color="primary">
           <h3>
@@ -43,6 +43,11 @@
         <ion-text color="primary">
           <p>
             {{transfer.date | date:'YYYY-MM-d'}}
+          </p>
+        </ion-text>
+        <ion-text color="primary" *ngIf="transfer.note">
+          <p class="note">
+            {{transfer.note}}
           </p>
         </ion-text>
       </ion-label>

@@ -26,7 +26,8 @@ export class TransferService {
     return this.api.delete(url);
   }
 
-  update(uuid: string, transfer: ITransfer): Observable<any> {
+  update(uuid: any, transfer: any): Observable<any> {
+    console.log(uuid);
     const url = `${API.transfer.deleteByUuid}`.replace('{:uuid}', uuid);
     return this.api.put(url, transfer);
   }

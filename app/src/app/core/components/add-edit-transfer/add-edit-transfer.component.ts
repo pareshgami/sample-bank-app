@@ -1,9 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { COMMON } from '../../constants/common.constant';
 import { IonicService } from '../../services/ionic.service';
 import {ValidatorService} from 'angular-iban';
+import { ITransfer } from '../../models/transfer.model';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/reducers';
+import { createTransfer, updateTransfer } from 'src/app/transfer/store/transfer.actions';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'app-add-edit-transfer',
@@ -15,7 +20,8 @@ export class AddEditTransferComponent implements OnInit {
   addTransferForm: FormGroup;
   constructor(
     private modalController: ModalController,
-    private ionicService: IonicService
+    private ionicService: IonicService,
+    private store: Store<AppState>
   ) {
     this.addTransferForm = new FormGroup({
       account_holder: new FormControl('', []),
@@ -57,8 +63,23 @@ export class AddEditTransferComponent implements OnInit {
       this.addTransferForm.markAllAsTouched();
       return;
     }
-    console.log(this._v);
-    this.modalController.dismiss(this._v, this.transfer ? COMMON.UPDATE : COMMON.SAVE);
+
+    if (this.transfer) {
+      const transfer: ITransfer = this._v;
+      console.log(transfer);
+      const update: Update<ITransfer> = {
+        id: this.transfer.uuid,
+        changes: {
+          ...this.transfer,
+          ...this._v
+        }
+      };
+      this.store.dispatch(updateTransfer({update}));
+    } else {
+      const transfer: ITransfer = this._v;
+      this.store.dispatch(createTransfer({transfer}));
+    }
+
   }
 
   get _v() {
@@ -71,7 +92,6 @@ export class AddEditTransferComponent implements OnInit {
 
   openDatePicker() {
     this.ionicService.openDatePicker(res => {
-      console.log(res);
       this.addTransferForm.get('date').setValue(res);
     });
   }
