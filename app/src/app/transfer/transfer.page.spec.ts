@@ -86,4 +86,8 @@ describe('TransferPage', () => {
     component.addTransfer();
   });
 
+  it('should call filter', () => {
+    component.filterRecord({detail: {value: 'hello'}});
+  });
+
 });

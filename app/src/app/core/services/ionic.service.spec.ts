@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicService } from './ionic.service';
 import { IonicModule } from '@ionic/angular';
+import { AddEditTransferComponent } from '../components/add-edit-transfer/add-edit-transfer.component';
 
 describe('IonicService', () => {
   let service: IonicService;
@@ -49,7 +50,16 @@ describe('IonicService', () => {
     service.openDatePicker(r => {});
   });
 
-  it('should open confirmation', () => {
-    service.showConfirmation();
+  it('should open modal', (done) => {
+    service.showModal(AddEditTransferComponent, {}, (_) => {
+      done();
+    });
+  });
+
+  it('should open confirmation', (done) => {
+    service.showConfirmation()
+    .then(result => {
+      done();
+    })
   });
 });

@@ -68,7 +68,15 @@ describe('AddEditTransferComponent', () => {
     expect(component.addTransferForm.valid).toBeTruthy();
   });
 
-  it('shoudl open date picker', () => {
+  it('should open date picker', () => {
     component.openDatePicker();
+  });
+
+  it('should close modal', () => {
+    component.close();
+  });
+
+  it('should call form get value', () => {
+    component._v();
   });
 });
