@@ -43,7 +43,10 @@ export class TransferPage implements OnDestroy {
       sorter = (a) => new Date(a.date) > new Date(a.date) ? 1 : -1;
     }
 
-    // this.transfers.sort(sorter);
+    this.transfers$ = this.transfers$.pipe(map((data) => {
+        data.sort(sorter);
+      return data;
+    }));
   }
 
   async load() {
