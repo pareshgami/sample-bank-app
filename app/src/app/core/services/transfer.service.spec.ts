@@ -17,17 +17,16 @@ describe('TransferService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get all give response', (done) => { 
+  it('should get all give response', async () => { 
     service.getAll().subscribe(data => {
       if (data.length) {
         uuid = data[0].uuid;
       }
       expect(data).toBeTruthy();
-      done();
     });
   });
 
-  it('should create a tranfer in db', (done) => { 
+  it('should create a tranfer in db', async () => { 
     const input: ITransfer = {
       "account_holder": "Don S. Ruth",
       "iban": "ES9121000418450200051332",
@@ -38,11 +37,10 @@ describe('TransferService', () => {
 
     service.create(input).subscribe(data => {
       expect(data).toBeTruthy();
-      done();
     });
   });
 
-  it('should update a tranfer in db', (done) => {
+  it('should update a tranfer in db', async () => {
     const data = {
       "account_holder": "Don S. Ruth",
       "iban": "ES9121000418450200051332",
@@ -53,14 +51,12 @@ describe('TransferService', () => {
     console.log(`uuid: ${uuid}`)
     service.update(uuid, data).subscribe(data => {
       expect(data).toBeTruthy();
-      done();
     });
   });
 
-  it('should delete a tranfer from db', (done) => { 
+  it('should delete a tranfer from db', async () => { 
     service.delete(uuid).subscribe(data => {
       expect(data).toBeTruthy();
-      done();
     });
   });
 

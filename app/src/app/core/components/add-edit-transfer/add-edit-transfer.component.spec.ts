@@ -4,17 +4,22 @@ import { StoreModule } from '@ngrx/store';
 import { TransferService } from '../../services/transfer.service';
 import { AddEditTransferComponent } from './add-edit-transfer.component';
 import { By } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DebugElement } from '@angular/core';
 
 describe('AddEditTransferComponent', () => {
   let component: AddEditTransferComponent;
   let fixture: ComponentFixture<AddEditTransferComponent>;
-
+  let de: DebugElement;
+  let el: HTMLElement;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AddEditTransferComponent ],
       imports: [
         IonicModule.forRoot(),
-        StoreModule.forRoot({})
+        StoreModule.forRoot({}),
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         TransferService
@@ -23,6 +28,8 @@ describe('AddEditTransferComponent', () => {
 
     fixture = TestBed.createComponent(AddEditTransferComponent);
     component = fixture.componentInstance;
+    de = fixture.debugElement.query(By.css('form'));
+    el = de.nativeElement;
     fixture.detectChanges();
   }));
 
@@ -40,7 +47,7 @@ describe('AddEditTransferComponent', () => {
     expect(addItemDebugElement).toBeTruthy();
   });
 
-  it('should', fakeAsync (() => {
+  it('should find close button', fakeAsync (() => {
     spyOn(component, 'close' as never);
   
     let button = fixture.debugElement.nativeElement.querySelector('#close-modal');
@@ -50,5 +57,37 @@ describe('AddEditTransferComponent', () => {
       expect(component.close).toHaveBeenCalled();
     });
   }));
+
+  it('should call the onFormSubmit method', () => {
+    fixture.detectChanges();
+    spyOn(component, 'onFormSubmit');
+    el = fixture.debugElement.query(By.css('#btn-submit')).nativeElement;
+    console.log(`el: ${el}`);
+    el.click();
+    expect(component.onFormSubmit).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set submitted to true', () => {
+    component.onFormSubmit();
+    expect(component.submitted).toBeTruthy();
+  });
+
+  it('form should be invalid', () => {
+    component.addTransferForm.get('account_holder').setValue('');
+    component.addTransferForm.get('iban').setValue('');
+    component.addTransferForm.get('amount').setValue('');
+    component.addTransferForm.get('date').setValue('');
+    component.addTransferForm.get('note').setValue('');
+    expect(component.addTransferForm.valid).toBeFalsy();
+  });
+
+  it('form should be valid', () => {
+    component.addTransferForm.get('account_holder').setValue('Don S. Ruth');
+    component.addTransferForm.get('iban').setValue('ES9121000418450200051332');
+    component.addTransferForm.get('amount').setValue('1999');
+    component.addTransferForm.get('date').setValue('2022-03-21');
+    component.addTransferForm.get('note').setValue('Payment settlements');
+    expect(component.addTransferForm.valid).toBeTruthy();
+  });
 
 });

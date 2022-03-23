@@ -18,6 +18,7 @@ import { Update } from '@ngrx/entity';
 export class AddEditTransferComponent implements OnInit {
   @Input() transfer;
   addTransferForm: FormGroup;
+  submitted = false;
   constructor(
     private modalController: ModalController,
     private ionicService: IonicService,
@@ -59,6 +60,7 @@ export class AddEditTransferComponent implements OnInit {
   }
 
   onFormSubmit() {
+    this.submitted = true;
     if (!this.addTransferForm.valid) {
       this.addTransferForm.markAllAsTouched();
       return;
@@ -73,9 +75,11 @@ export class AddEditTransferComponent implements OnInit {
         }
       };
       this.store.dispatch(updateTransfer({update}));
+      this.submitted = false;
     } else {
       const transfer: ITransfer = this._v;
       this.store.dispatch(createTransfer({transfer}));
+      this.submitted = false;
     }
 
   }

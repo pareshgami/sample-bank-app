@@ -53,8 +53,8 @@
         </ion-text>
       </ion-label>
   
-      <ion-icon slot="end" name="create-outline" (click)="edit(transfer)"></ion-icon>
-      <ion-icon slot="end" name="close-circle-outline" (click)="delete(transfer.uuid)"></ion-icon>
+      <ion-icon slot="end" id="edit" name="create-outline" (click)="edit(transfer)"></ion-icon>
+      <ion-icon slot="end" id="delete" name="close-circle-outline" (click)="delete(transfer.uuid)"></ion-icon>
     </ion-item>
   </ng-container>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
