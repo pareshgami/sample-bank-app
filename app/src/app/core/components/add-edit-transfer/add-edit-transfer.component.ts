@@ -65,8 +65,6 @@ export class AddEditTransferComponent implements OnInit {
     }
 
     if (this.transfer) {
-      const transfer: ITransfer = this._v;
-      console.log(transfer);
       const update: Update<ITransfer> = {
         id: this.transfer.uuid,
         changes: {

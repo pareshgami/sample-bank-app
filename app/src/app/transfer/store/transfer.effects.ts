@@ -45,7 +45,8 @@ export class TransferEffects {
       ofType(transferActionTypes.updateTransfer),
       concatMap((action) => 
         this.transferService.update(action.update.id, action.update.changes)
-      )
+      ),
+      tap(() => this.modalCtrl.dismiss())
     ),
     {dispatch: false}
   );

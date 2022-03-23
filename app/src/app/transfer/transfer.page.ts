@@ -63,11 +63,15 @@ export class TransferPage implements OnDestroy {
   }
 
   addTransfer() {
-    this.ionicService.showModal(AddEditTransferComponent, {});
+    this.ionicService.showModal(AddEditTransferComponent, {}, (_) => {
+      this.store.dispatch(loadTransfers({title: ''}));
+    });
   }
 
   async edit(transfer: ITransfer) {
-    this.ionicService.showModal(AddEditTransferComponent, {transfer});
+    this.ionicService.showModal(AddEditTransferComponent, {transfer}, (_) => {
+      this.store.dispatch(loadTransfers({title: ''}));
+    });
   }
 
   filterRecord(elem) {
