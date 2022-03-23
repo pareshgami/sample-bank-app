@@ -14,6 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { TransferResolver } from './transfer/transfer.resolver';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent, AddEditTransferComponent, DatePickerComponent],
@@ -23,6 +24,7 @@ import { TransferResolver } from './transfer/transfer.resolver';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     !environment.production ? StoreDevtoolsModule.instrument() : [],
