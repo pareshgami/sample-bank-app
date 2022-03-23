@@ -32,7 +32,6 @@ exports.create = (req, res) => {
 // Retrieve all Transfer from the database (with condition).
 exports.findAll = (req, res) => {
   const title = req.query.title;
-  console.log(title);
   Transfers.getAll(title, (err, data) => {
     if (err)
       res.status(500).send({

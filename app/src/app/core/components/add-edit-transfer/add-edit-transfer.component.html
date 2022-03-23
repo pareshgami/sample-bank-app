@@ -4,7 +4,7 @@
       {{transfer ? 'Edit' : 'Add'}} Transfer
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">
+      <ion-button id="close-modal" (click)="close()">
         <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -72,6 +72,6 @@
       <ion-input type="text" formControlName="note" placeholder=""></ion-input>
     </ion-item>
 
-    <ion-button type="submit">Submit</ion-button>
+    <ion-button id="btn-submit" type="submit">Submit</ion-button>
   </form>
 </ion-content>
