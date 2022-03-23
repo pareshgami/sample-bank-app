@@ -58,15 +58,6 @@ describe('AddEditTransferComponent', () => {
     });
   }));
 
-  it('should call the onFormSubmit method', () => {
-    fixture.detectChanges();
-    spyOn(component, 'onFormSubmit');
-    el = fixture.debugElement.query(By.css('#btn-submit')).nativeElement;
-    console.log(`el: ${el}`);
-    el.click();
-    expect(component.onFormSubmit).toHaveBeenCalledTimes(0);
-  });
-
   it('should set submitted to true', () => {
     component.onFormSubmit();
     expect(component.submitted).toBeTruthy();
