@@ -5,6 +5,7 @@ import { ITransfer } from 'src/app/core/models/transfer.model';
 
 export const loadTransfers = createAction(
   '[Transfers List] Load Transfers via Service',
+  props<{title: any}>()
 );
 
 export const transfersLoaded = createAction(

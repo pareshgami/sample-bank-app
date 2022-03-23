@@ -17,6 +17,7 @@ export const transferReducer = createReducer(
   initialState,
 
   on(transferActionTypes.transfersLoaded, (state, action) => {
+    console.log(action);
     return adapter.setAll(
       action.transfers,
       {...state, transfersLoaded: true}

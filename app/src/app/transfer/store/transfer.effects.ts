@@ -18,7 +18,7 @@ export class TransferEffects {
   loadTransfers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(transferActionTypes.loadTransfers),
-      concatMap(() => this.transferService.getAll()),
+      concatMap((action) => this.transferService.getAll(action['title'])),
       map(transfers => transferActionTypes.transfersLoaded({transfers}))
     )
   );

@@ -8,7 +8,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../store/reducers';
 import { getAllTransfers } from './store/transfer.selectors';
-import { transferActionTypes } from './store/transfer.actions';
+import { loadTransfers, transferActionTypes } from './store/transfer.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transfer',
@@ -52,16 +53,17 @@ export class TransferPage implements OnDestroy {
     await this.ionicService.hideLoader();
   }
 
-  addTransfer() {
-    this.ionicService.showModal(AddEditTransferComponent, {});
-  }
-
   delete(uuid: string) {
     this.ionicService.showConfirmation()
     .then(() => {
       this.store.dispatch(transferActionTypes.deleteTransfer({uuid}));
+      this.store.dispatch(loadTransfers({title: ''}));
     }).catch(err => {
     });
+  }
+
+  addTransfer() {
+    this.ionicService.showModal(AddEditTransferComponent, {});
   }
 
   async edit(transfer: ITransfer) {
@@ -69,16 +71,8 @@ export class TransferPage implements OnDestroy {
   }
 
   filterRecord(elem) {
-    const elemVal = elem.detail.value.toLowerCase();
-    if (elemVal) {
-      // this.transfers.forEach(transfer => {
-      //   if (transfer.account_holder.toLowerCase().includes(elemVal) || transfer.note.toLowerCase().includes(elemVal)) {
-      //     transfer['isVisible'] = true;
-      //   } else {
-      //     transfer['isVisible'] = false;
-      //   }
-      // });
-    }
+    const query = elem.detail.value.toLowerCase();
+    this.store.dispatch(loadTransfers({title: query}));
   }
 
   ngOnDestroy(): void {

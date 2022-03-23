@@ -24,13 +24,14 @@
     No transfers to display yet.!
   </p>
 
-  <ng-container *ngFor="let transfer of transfers$ | async">
+  <ng-container *ngFor="let transfer of transfers$ | async; let ind = index;">
     <ion-item>
       <ion-label class="ion-text-wrap">
         <ion-text color="primary">
           <h3>
-            {{transfer.account_holder}}
+            {{ind + 1}}. {{transfer.account_holder}}
           </h3>
+          {{transfer['hello']}}
         </ion-text>
         <p>
           {{transfer.iban | ibanFormatter}}

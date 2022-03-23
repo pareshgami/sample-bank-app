@@ -13,8 +13,12 @@ export class TransferService {
     private api: ApiService
   ) { }
 
-  getAll(): Observable<ITransfer[]> {
-    return this.api.get(`${API.transfer.getAll}`);
+  getAll(title?: string): Observable<ITransfer[]> {
+    let url = `${API.transfer.getAll}`;
+    if (title) {
+        url += `?title=${title}`;
+    }
+    return this.api.get(url);
   }
 
   create(transfer: ITransfer): Observable<ITransfer> {

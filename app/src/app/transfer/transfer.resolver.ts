@@ -18,7 +18,7 @@ export class TransferResolver implements Resolve<Observable<any>> {
         select(areTransfersLoaded),
         tap((transfersLoaded) => {
           if (!transfersLoaded) {
-            this.store.dispatch(loadTransfers());
+            this.store.dispatch(loadTransfers({title: ''}));
           }
         }),
         filter(transfersLoaded => transfersLoaded),

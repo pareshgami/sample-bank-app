@@ -47,7 +47,7 @@ Transfers.getAll = (searchQuery, result) => {
   let query = "SELECT * FROM transfer";
 
   if (searchQuery) {
-    query += ` WHERE account_holder LIKE '%${query}%' or note LIKE '%${searchQuery}%'`;
+    query += ` WHERE account_holder LIKE '%${searchQuery}%' or note LIKE '%${searchQuery}%'`;
   }
 
   sql.query(query, (err, res) => {

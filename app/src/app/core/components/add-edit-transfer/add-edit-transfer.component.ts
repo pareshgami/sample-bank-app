@@ -7,7 +7,7 @@ import {ValidatorService} from 'angular-iban';
 import { ITransfer } from '../../models/transfer.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/reducers';
-import { createTransfer, updateTransfer } from 'src/app/transfer/store/transfer.actions';
+import { createTransfer, loadTransfers, updateTransfer } from 'src/app/transfer/store/transfer.actions';
 import { Update } from '@ngrx/entity';
 
 @Component({
