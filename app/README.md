@@ -2,6 +2,9 @@
 
 ng test
 
+ng test --code-coverage
+
+
 
 ```Run Cypress test```
 
